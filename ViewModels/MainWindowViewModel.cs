@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.VisualTree;
 using DynamicData;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 using YDs_Link_Saver.Database;
 using YDs_Link_Saver.Models;
 
@@ -15,6 +16,8 @@ public class MainWindowViewModel : ViewModelBase
     public ObservableCollection<StoredLink> Links { get; } = new();
 
     private ApplicationContext _db = new ApplicationContext();
+
+    private static Logger _logger = NLog.LogManager.GetCurrentClassLogger();
     
     public MainWindowViewModel()
     {
@@ -39,9 +42,13 @@ public class MainWindowViewModel : ViewModelBase
             Url = url,
             Description = desc
         };
+        
+        _logger.Debug("save to db...");
 
         Links.Add(link);
         _db.Links.Add(link);
         _db.SaveChanges();
+        
+        _logger.Debug("success!");
     }
 }

@@ -25,6 +25,13 @@
         <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.1"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.2" />
+        <PackageReference Include="NLog" Version="5.4.0" />
         <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.11-pre20241216174303" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="nlog.config">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 </Project>

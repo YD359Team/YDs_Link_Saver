@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NLog;
 using YDs_Link_Saver.Models;
 
 namespace YDs_Link_Saver.Database;
