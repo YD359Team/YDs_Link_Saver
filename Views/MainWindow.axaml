@@ -13,7 +13,7 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
+    
     <DockPanel>
         <Border DockPanel.Dock="Top"
                 Padding="4">
@@ -52,6 +52,13 @@
                             </StackPanel>    
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Padding" Value="2"/>
+                            <Setter Property="FontSize" Value="12"/>
+                        </Style>
+                    </ListBox.Styles>
                 </ListBox> 
             </StackPanel>
         </Border>
