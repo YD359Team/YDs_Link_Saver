@@ -1,0 +1,97 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:YDs_Link_Saver.ViewModels"
+        xmlns:m="using:YDs_Link_Saver.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="YDs_Link_Saver.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="YDs_Link_Saver">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top"
+                Padding="4">
+            <TextBlock Text="YD's Link Saver"
+                       FontSize="24"/>
+        </Border>
+        
+        <Border DockPanel.Dock="Left"
+                Padding="4"
+                Width="400">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Сохраненные ссылки"
+                           FontSize="20"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button>
+                        Обновить
+                    </Button>  
+                    <Button>
+                        Удалить
+                    </Button>
+                    <Button>
+                        Перейти
+                    </Button>
+                </StackPanel>
+                <ListBox ItemsSource="{Binding Links}"
+                         BorderBrush="DimGray"
+                         BorderThickness="1"
+                         Height="400">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="m:StoredLink">
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="4">
+                                <TextBlock Text="{Binding Title}"/>
+                                <TextBlock Text="{Binding Url}"/>
+                                <TextBlock Text="{Binding Description}"/>
+                            </StackPanel>    
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox> 
+            </StackPanel>
+        </Border>
+        
+        <Border Padding="4">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Добавить новую ссылку"
+                           FontSize="20"/>
+                
+                <Grid RowDefinitions="*,*,*" ColumnDefinitions="100,300"
+                      Name="Form">
+                    <TextBlock Grid.Row="0" 
+                               Grid.Column="0"
+                               Text="Название"/>
+                    <TextBox Grid.Row="0"
+                             Grid.Column="1"
+                             Name="Title"
+                             Watermark="Моя ссылка"/>
+                    <TextBlock Grid.Row="1" 
+                               Grid.Column="0"
+                               Text="Ссылка"/>
+                    <TextBox Grid.Row="1"
+                             Grid.Column="1"
+                             Name="Url"
+                             Watermark="https://hello.world"/>
+                    <TextBlock Grid.Row="2" 
+                               Grid.Column="0"
+                               Text="Описание"/>
+                    <TextBox Grid.Row="2"
+                             Grid.Column="1"
+                             Name="Description"
+                             Watermark="Это поле необязательно"/>
+                    
+                </Grid>
+                
+                <Button Content="Создать"
+                        Command="{Binding StoreLinkCommand}"
+                        CommandParameter="{Binding #Form}"/>
+
+            </StackPanel>
+        </Border>
+    </DockPanel>
+</Window>
