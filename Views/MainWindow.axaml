@@ -4,7 +4,8 @@
         xmlns:m="using:YDs_Link_Saver.Models"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="550"
+        Width="900" Height="550"
         x:Class="YDs_Link_Saver.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -36,10 +37,16 @@
         <Border DockPanel.Dock="Left"
                 Padding="4"
                 Width="400">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Сохраненные ссылки"
+            <Grid RowDefinitions="Auto,Auto,Auto"
+                  ColumnDefinitions="Auto">
+                <TextBlock Grid.Row="0" 
+                           Grid.Column="0"
+                           Text="Сохраненные ссылки"
                            FontSize="20"/>
-                <StackPanel Orientation="Horizontal"
+                <StackPanel Grid.Row="1" 
+                            Grid.Column="0"
+                            Height="45"
+                            Orientation="Horizontal"
                             Spacing="3">
                     <Button>
                         <Image Source="/Assets/PNG/icons8-update-48.png"
@@ -61,9 +68,12 @@
                              Width="220"
                              MaxLines="1"
                              Text="{Binding SearchQuery, Mode=TwoWay}"/>
-                </StackPanel>
+                    
+                    </StackPanel>
                 
-                <ListBox Name="ListBox" 
+                <ListBox Grid.Row="2" 
+                         Grid.Column="0"
+                         Name="ListBox" 
                          ItemsSource="{Binding Links}"
                          BorderBrush="DimGray"
                          BorderThickness="1"
@@ -87,7 +97,8 @@
                         </Style>
                     </ListBox.Styles>
                 </ListBox> 
-            </StackPanel>
+            </Grid>
+                
         </Border>
         
         <Border Padding="4">
