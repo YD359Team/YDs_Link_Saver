@@ -6,6 +6,7 @@ namespace YDs_Link_Saver.Database;
 
 public class ApplicationContext : DbContext
 {
+    public DbSet<StoredGroup> Groups { get; set; }
     public DbSet<StoredLink> Links { get; set; }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

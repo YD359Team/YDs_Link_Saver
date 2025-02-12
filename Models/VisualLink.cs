@@ -30,6 +30,13 @@ public class VisualLink : ReactiveObject
         get => _description; 
         set => this.RaiseAndSetIfChanged(ref _description, value);
     }
+    
+    private int _groupId;
+    public int GroupId
+    {
+        get => _groupId; 
+        set => this.RaiseAndSetIfChanged(ref _groupId, value);
+    }
 
     private bool _isVisible = true;
     public bool IsVisible
@@ -45,7 +52,8 @@ public class VisualLink : ReactiveObject
             Id = this.Id,
             Title = this.Title,
             Url = this.Url,
-            Description = this.Description
+            Description = this.Description,
+            GroupId = this.GroupId
         };
     }
 }

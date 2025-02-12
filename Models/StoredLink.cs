@@ -8,6 +8,7 @@ public class StoredLink
     public string Title { get; set; }
     public string Url { get; set; }
     public string? Description { get; set; }
+    public int GroupId { get; set; }
 
     public VisualLink ToVisualLink()
     {
@@ -16,7 +17,8 @@ public class StoredLink
             Id = this.Id,
             Title = this.Title,
             Url = this.Url,
-            Description = this.Description
+            Description = this.Description,
+            GroupId = this.GroupId
         };
     }
 }

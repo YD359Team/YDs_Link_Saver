@@ -38,7 +38,7 @@
         <Border DockPanel.Dock="Left"
                 Padding="4"
                 Width="400">
-            <Grid RowDefinitions="Auto,Auto,Auto"
+            <Grid RowDefinitions="Auto,Auto,Auto, Auto"
                   ColumnDefinitions="Auto">
                 <TextBlock Grid.Row="0" 
                            Grid.Column="0"
@@ -54,14 +54,14 @@
                                Width="30"/>
                     </Button>  
                     <Button Command="{Binding RemoveLinkCommand}"
-                            CommandParameter="{Binding #ListBox.SelectedItem}"
-                            IsEnabled="{Binding #ListBox.SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}">
+                            CommandParameter="{Binding #TreeView.SelectedItem}"
+                            IsEnabled="{Binding #TreeView.SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}">
                         <Image Source="/Assets/PNG/icons8-delete-48.png"
                                Width="30"/>
                     </Button>
                     <Button Command="{Binding NavigateCommand}"
-                            CommandParameter="{Binding #ListBox.SelectedItem}"
-                            IsEnabled="{Binding #ListBox.SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}">
+                            CommandParameter="{Binding #TreeView.SelectedItem}"
+                            IsEnabled="{Binding #TreeView.SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}">
                         <Image Source="/Assets/PNG/icons8-site-48.png"
                                Width="30"/>
                     </Button>
@@ -72,83 +72,118 @@
                     
                     </StackPanel>
                 
-                <ListBox Grid.Row="2" 
-                         Grid.Column="0"
-                         Name="ListBox" 
-                         ItemsSource="{Binding Links}"
-                         BorderBrush="DimGray"
-                         BorderThickness="1"
-                         Height="400">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="m:VisualLink">
+                <TreeView Grid.Row="2"
+                          Grid.Column="0"
+                          Name="TreeView"
+                          ItemsSource="{Binding Groups}">
+                    <TreeView.DataTemplates>
+                        <TreeDataTemplate DataType="m:VisualGroup" ItemsSource="{Binding SubNodes}">
+                            <TextBlock Text="{Binding Title}"/>
+                        </TreeDataTemplate>
+                        <TreeDataTemplate DataType="m:VisualLink">
                             <StackPanel Orientation="Horizontal"
-                                        Spacing="4"
-                                        IsVisible="{Binding IsVisible}">
+                                        Spacing="4">
                                 <TextBlock Text="{Binding Title}"/>
                                 <TextBlock Text="{Binding Url}"/>
                                 <TextBlock Text="{Binding Description, TargetNullValue=Без описания}"/>
-                            </StackPanel>    
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    
-                    <ListBox.Styles>
-                        <Style Selector="ListBoxItem">
-                            <Setter Property="Padding" Value="2"/>
-                            <Setter Property="FontSize" Value="12"/>
-                        </Style>
-                    </ListBox.Styles>
-                </ListBox> 
+                            </StackPanel>
+                        </TreeDataTemplate>
+                    </TreeView.DataTemplates>
+                </TreeView>
+                
             </Grid>
                 
         </Border>
         
         <Border Padding="4">
-            <StackPanel Orientation="Vertical"
-                        Spacing="3">
-                <TextBlock Text="Добавить новую ссылку"
-                           FontSize="20"/>
-                
-                <Grid RowDefinitions="*,*,*" ColumnDefinitions="100,300"
-                      Name="Form">
-                    <TextBlock Grid.Row="0" 
-                               Grid.Column="0"
-                               Text="Название"/>
-                    <TextBox Grid.Row="0"
-                             Grid.Column="1"
-                             Name="TbTitle"
-                             Watermark="Моя ссылка"
-                             MaxLines="1"/>
-                    <TextBlock Grid.Row="1" 
-                               Grid.Column="0"
-                               Text="Ссылка"/>
-                    <TextBox Grid.Row="1"
-                             Grid.Column="1"
-                             Name="TbUrl"
-                             Watermark="https://hello.world"
-                             MaxLines="1"/>
-                    <TextBlock Grid.Row="2" 
-                               Grid.Column="0"
-                               Text="Описание"/>
-                    <TextBox Grid.Row="2"
-                             Grid.Column="1"
-                             Name="TbDescription"
-                             Watermark="Это поле необязательно"
-                             MaxLines="1"/>
+            
+            <Grid RowDefinitions="Auto,20,Auto">
+                <StackPanel Grid.Row="0" Orientation="Vertical"
+                            Spacing="3">
+                    <TextBlock Text="Добавить новую ссылку"
+                               FontSize="20"/>
                     
-                </Grid>
-                
-                <Button Name="BtnStore"
-                        Command="{Binding StoreLinkCommand}"
-                        CommandParameter="{Binding #Form}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="/Assets/PNG/icons8-save-48.png"
-                               Width="30"/>
-                        <TextBlock Text="Сохранить"
-                                   VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
+                    <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="120,300"
+                          Name="Form">
+                        <TextBlock Grid.Row="0" 
+                                   Grid.Column="0"
+                                   Text="Название"/>
+                        <TextBox Grid.Row="0"
+                                 Grid.Column="1"
+                                 Name="TbTitle"
+                                 Watermark="Моя ссылка"
+                                 MaxLines="1"/>
+                        <TextBlock Grid.Row="1" 
+                                   Grid.Column="0"
+                                   Text="Ссылка"/>
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 Name="TbUrl"
+                                 Watermark="https://hello.world"
+                                 MaxLines="1"/>
+                        <TextBlock Grid.Row="2" 
+                                   Grid.Column="0"
+                                   Text="Описание"/>
+                        <TextBox Grid.Row="2"
+                                 Grid.Column="1"
+                                 Name="TbDescription"
+                                 Watermark="Это поле необязательно"
+                                 MaxLines="1"/>
+                        <TextBlock Grid.Row="3" 
+                                   Grid.Column="0"
+                                   Text="Группа"/>
+                        <ComboBox Grid.Row="3"
+                                 Grid.Column="1"
+                                 Name="CbGroup"
+                                 ItemsSource="{Binding Groups}"
+                                 SelectedItem="{Binding SelectedGroup, Mode=TwoWay}"/>
+                        
+                    </Grid>
+                    
+                    <Button Name="BtnStore"
+                            Command="{Binding StoreLinkCommand}"
+                            CommandParameter="{Binding #Form}"
+                            Margin="0 4 0 0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Assets/PNG/icons8-save-48.png"
+                                   Width="30"/>
+                            <TextBlock Text="Сохранить"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
 
-            </StackPanel>
+                </StackPanel>
+                
+                <StackPanel Grid.Row="2">
+                        <TextBlock Text="Добавить новую группу"
+                                   FontSize="20"/>
+                        
+                        <Grid RowDefinitions="*,*,*,*" ColumnDefinitions="120,300"
+                              Name="Form2">
+                            <TextBlock Grid.Row="0" 
+                                       Grid.Column="0"
+                                       Text="Название"/>
+                            <TextBox Grid.Row="0"
+                                     Grid.Column="1"
+                                     Name="TbGroupName"
+                                     Watermark="Моя группа"
+                                     MaxLines="1"/>
+                            
+                        </Grid>    
+                        
+                        <Button Name="BtnCreateGroup"
+                                Command="{Binding CreateGroupCommand}"
+                                CommandParameter="{Binding #Form2}"
+                                Margin="0 4 0 0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/PNG/icons8-plus-48.png"
+                                       Width="30"/>
+                                <TextBlock Text="Создать"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                </StackPanel>
+            </Grid>
         </Border>
     </DockPanel>
 </Window>
