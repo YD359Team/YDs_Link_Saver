@@ -48,7 +48,7 @@
                             Height="45"
                             Orientation="Horizontal"
                             Spacing="3">
-                    <Button>
+                    <Button Command="{Binding RefreshCommand}">
                         <Image Source="/Assets/PNG/icons8-update-48.png"
                                Width="30"/>
                     </Button>  

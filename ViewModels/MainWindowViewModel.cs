@@ -80,6 +80,17 @@ public class MainWindowViewModel : ViewModelBase
         _logger.Debug("success!");
     }
 
+    public void RefreshCommand()
+    {
+        SearchQuery = string.Empty;
+        
+        Links.Clear();
+        if (_db.Links.Any())
+        {
+            Links.AddRange(_db.Links.Select(x => x.ToVisualLink()));
+        }
+    }
+
     public void RemoveLinkCommand(object eLink)
     {
         VisualLink link = (VisualLink)eLink;
