@@ -112,7 +112,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public void NavigateCommand(object eLink)
     {
-        StoredLink link = (StoredLink)eLink;
+        VisualLink link = (VisualLink)eLink;
 
         try
         {

@@ -30,8 +30,9 @@
     <DockPanel>
         <Border DockPanel.Dock="Top"
                 Padding="4">
-            <TextBlock Text="YD's Link Saver"
-                       FontSize="24"/>
+            <TextBlock FontSize="24">
+                <Span Background="Orange" FontWeight="Bold">YD</Span>'s Link Saver
+            </TextBlock>
         </Border>
         
         <Border DockPanel.Dock="Left"
@@ -85,7 +86,7 @@
                                         IsVisible="{Binding IsVisible}">
                                 <TextBlock Text="{Binding Title}"/>
                                 <TextBlock Text="{Binding Url}"/>
-                                <TextBlock Text="{Binding Description}"/>
+                                <TextBlock Text="{Binding Description, TargetNullValue=Без описания}"/>
                             </StackPanel>    
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -102,7 +103,8 @@
         </Border>
         
         <Border Padding="4">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical"
+                        Spacing="3">
                 <TextBlock Text="Добавить новую ссылку"
                            FontSize="20"/>
                 
@@ -114,28 +116,37 @@
                     <TextBox Grid.Row="0"
                              Grid.Column="1"
                              Name="TbTitle"
-                             Watermark="Моя ссылка"/>
+                             Watermark="Моя ссылка"
+                             MaxLines="1"/>
                     <TextBlock Grid.Row="1" 
                                Grid.Column="0"
                                Text="Ссылка"/>
                     <TextBox Grid.Row="1"
                              Grid.Column="1"
                              Name="TbUrl"
-                             Watermark="https://hello.world"/>
+                             Watermark="https://hello.world"
+                             MaxLines="1"/>
                     <TextBlock Grid.Row="2" 
                                Grid.Column="0"
                                Text="Описание"/>
                     <TextBox Grid.Row="2"
                              Grid.Column="1"
                              Name="TbDescription"
-                             Watermark="Это поле необязательно"/>
+                             Watermark="Это поле необязательно"
+                             MaxLines="1"/>
                     
                 </Grid>
                 
-                <Button Name="BtnStore" 
-                        Content="Создать"
+                <Button Name="BtnStore"
                         Command="{Binding StoreLinkCommand}"
-                        CommandParameter="{Binding #Form}"/>
+                        CommandParameter="{Binding #Form}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Assets/PNG/icons8-save-48.png"
+                               Width="30"/>
+                        <TextBlock Text="Сохранить"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
 
             </StackPanel>
         </Border>
