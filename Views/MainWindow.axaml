@@ -31,18 +31,26 @@
                 <StackPanel Orientation="Horizontal"
                             Spacing="3">
                     <Button>
-                        Обновить
+                        <Image Source="/Assets/PNG/icons8-update-48.png"
+                               Width="30"/>
                     </Button>  
                     <Button Command="{Binding RemoveLinkCommand}"
                             CommandParameter="{Binding #ListBox.SelectedItem}"
                             IsEnabled="{Binding #ListBox.SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}">
-                        Удалить
+                        <Image Source="/Assets/PNG/icons8-delete-48.png"
+                               Width="30"/>
                     </Button>
                     <Button Command="{Binding NavigateCommand}"
                             CommandParameter="{Binding #ListBox.SelectedItem}"
                             IsEnabled="{Binding #ListBox.SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}">
-                        Перейти
+                        <Image Source="/Assets/PNG/icons8-site-48.png"
+                               Width="30"/>
                     </Button>
+                    <TextBox Watermark="Поиск..."
+                             Width="220"
+                             MaxLines="1">
+                        
+                    </TextBox>
                 </StackPanel>
                 <ListBox Name="ListBox" 
                          ItemsSource="{Binding Links}"
