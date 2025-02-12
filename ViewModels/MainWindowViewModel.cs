@@ -34,23 +34,29 @@ public class MainWindowViewModel : ViewModelBase
         get => _searchQuery;
         set
         {
-            /*if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
             {
-                foreach (var storedLink in Links)
+                foreach (var gp in Groups)
                 {
-                    storedLink.IsVisible = true;
+                    foreach (var link in gp.SubNodes)
+                    {
+                        link.IsVisible = true;
+                    }
                 }
             }
             else
             {
-                foreach (var storedLink in Links)
+                foreach (var gp in Groups)
                 {
-                    storedLink.IsVisible = storedLink.Title.Contains(value) ||
-                                           storedLink.Url.Contains(value) ||
-                                           (storedLink.Description?.Contains(value) ?? false);
+                    foreach (var link in gp.SubNodes)
+                    {
+                        link.IsVisible = link.Title.Contains(value) ||
+                                         link.Url.Contains(value) ||
+                                         (link.Description?.Contains(value) ?? false);
+                    }
                 }
             }
-            this.RaiseAndSetIfChanged(ref _searchQuery, value);*/
+            this.RaiseAndSetIfChanged(ref _searchQuery, value);
         }
     }
 

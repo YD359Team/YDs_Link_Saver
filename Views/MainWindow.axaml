@@ -82,7 +82,8 @@
                         </TreeDataTemplate>
                         <TreeDataTemplate DataType="m:VisualLink">
                             <StackPanel Orientation="Horizontal"
-                                        Spacing="4">
+                                        Spacing="4"
+                                        IsVisible="{Binding IsVisible}">
                                 <TextBlock Text="{Binding Title}"/>
                                 <TextBlock Text="{Binding Url}"/>
                                 <TextBlock Text="{Binding Description, TargetNullValue=Без описания}"/>
