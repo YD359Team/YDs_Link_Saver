@@ -8,7 +8,8 @@
         x:Class="YDs_Link_Saver.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="YDs_Link_Saver">
+        Title="YD's Link Saver"
+        WindowStartupLocation="CenterOwner">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
