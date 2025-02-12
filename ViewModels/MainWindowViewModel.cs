@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
@@ -84,30 +85,45 @@ public class MainWindowViewModel : ViewModelBase
     {
         SearchQuery = string.Empty;
         
+        _logger.Debug("refreshing...");
+
         Links.Clear();
         if (_db.Links.Any())
         {
             Links.AddRange(_db.Links.Select(x => x.ToVisualLink()));
         }
+        
+        _logger.Debug("success!");
     }
 
     public void RemoveLinkCommand(object eLink)
     {
         VisualLink link = (VisualLink)eLink;
 
+        _logger.Debug("removing...");
+        
         Links.Remove(link);
         StoredLink? del = _db.Links.FirstOrDefault(x => x.Id == link.Id);
         _db.Remove(del);
         _db.SaveChanges();
+        
+        _logger.Debug("success!");
     }
 
     public void NavigateCommand(object eLink)
     {
         StoredLink link = (StoredLink)eLink;
 
-        Process proc = new Process();
-        proc.StartInfo.FileName = link.Url;
-        proc.StartInfo.UseShellExecute = true;
-        proc.Start();
+        try
+        {
+            Process proc = new Process();
+            proc.StartInfo.FileName = link.Url;
+            proc.StartInfo.UseShellExecute = true;
+            proc.Start();
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex);
+        }
     }
 }
