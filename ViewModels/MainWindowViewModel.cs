@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using Avalonia.Controls;
@@ -32,9 +33,9 @@ public class MainWindowViewModel : ViewModelBase
     public void StoreLinkCommand(object eGrid)
     {
         Grid root = (Grid)eGrid;
-        string? title = root.FindControl<TextBox>("Title").Text;
-        string? url = root.FindControl<TextBox>("Url").Text;
-        string? desc = root.FindControl<TextBox>("Description").Text;
+        string? title = root.FindControl<TextBox>("TbTitle").Text;
+        string? url = root.FindControl<TextBox>("TbUrl").Text;
+        string? desc = root.FindControl<TextBox>("TbDescription").Text;
 
         StoredLink link = new StoredLink()
         {
@@ -50,5 +51,24 @@ public class MainWindowViewModel : ViewModelBase
         _db.SaveChanges();
         
         _logger.Debug("success!");
+    }
+
+    public void RemoveLinkCommand(object eLink)
+    {
+        StoredLink link = (StoredLink)eLink;
+
+        Links.Remove(link);
+        _db.Links.Remove(link);
+        _db.SaveChanges();
+    }
+
+    public void NavigateCommand(object eLink)
+    {
+        StoredLink link = (StoredLink)eLink;
+
+        Process proc = new Process();
+        proc.StartInfo.FileName = link.Url;
+        proc.StartInfo.UseShellExecute = true;
+        proc.Start();
     }
 }

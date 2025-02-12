@@ -27,18 +27,24 @@
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Сохраненные ссылки"
                            FontSize="20"/>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal"
+                            Spacing="3">
                     <Button>
                         Обновить
                     </Button>  
-                    <Button>
+                    <Button Command="{Binding RemoveLinkCommand}"
+                            CommandParameter="{Binding #ListBox.SelectedItem}"
+                            IsEnabled="{Binding #ListBox.SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}">
                         Удалить
                     </Button>
-                    <Button>
+                    <Button Command="{Binding NavigateCommand}"
+                            CommandParameter="{Binding #ListBox.SelectedItem}"
+                            IsEnabled="{Binding #ListBox.SelectedItem, Converter={x:Static ObjectConverters.IsNotNull}}">
                         Перейти
                     </Button>
                 </StackPanel>
-                <ListBox ItemsSource="{Binding Links}"
+                <ListBox Name="ListBox" 
+                         ItemsSource="{Binding Links}"
                          BorderBrush="DimGray"
                          BorderThickness="1"
                          Height="400">
@@ -75,26 +81,27 @@
                                Text="Название"/>
                     <TextBox Grid.Row="0"
                              Grid.Column="1"
-                             Name="Title"
+                             Name="TbTitle"
                              Watermark="Моя ссылка"/>
                     <TextBlock Grid.Row="1" 
                                Grid.Column="0"
                                Text="Ссылка"/>
                     <TextBox Grid.Row="1"
                              Grid.Column="1"
-                             Name="Url"
+                             Name="TbUrl"
                              Watermark="https://hello.world"/>
                     <TextBlock Grid.Row="2" 
                                Grid.Column="0"
                                Text="Описание"/>
                     <TextBox Grid.Row="2"
                              Grid.Column="1"
-                             Name="Description"
+                             Name="TbDescription"
                              Watermark="Это поле необязательно"/>
                     
                 </Grid>
                 
-                <Button Content="Создать"
+                <Button Name="BtnStore" 
+                        Content="Создать"
                         Command="{Binding StoreLinkCommand}"
                         CommandParameter="{Binding #Form}"/>
 
