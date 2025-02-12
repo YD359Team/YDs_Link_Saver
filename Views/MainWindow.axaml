@@ -15,6 +15,17 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     
+    <Window.Styles>
+        <Style Selector="Button">
+            <Setter Property="Background"
+                    Value="White"/>
+            <Setter Property="BorderBrush"
+                    Value="DodgerBlue"/>
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+        </Style>
+    </Window.Styles>
+    
     <DockPanel>
         <Border DockPanel.Dock="Top"
                 Padding="4">
@@ -48,19 +59,20 @@
                     </Button>
                     <TextBox Watermark="Поиск..."
                              Width="220"
-                             MaxLines="1">
-                        
-                    </TextBox>
+                             MaxLines="1"
+                             Text="{Binding SearchQuery, Mode=TwoWay}"/>
                 </StackPanel>
+                
                 <ListBox Name="ListBox" 
                          ItemsSource="{Binding Links}"
                          BorderBrush="DimGray"
                          BorderThickness="1"
                          Height="400">
                     <ListBox.ItemTemplate>
-                        <DataTemplate DataType="m:StoredLink">
+                        <DataTemplate DataType="m:VisualLink">
                             <StackPanel Orientation="Horizontal"
-                                        Spacing="4">
+                                        Spacing="4"
+                                        IsVisible="{Binding IsVisible}">
                                 <TextBlock Text="{Binding Title}"/>
                                 <TextBlock Text="{Binding Url}"/>
                                 <TextBlock Text="{Binding Description}"/>

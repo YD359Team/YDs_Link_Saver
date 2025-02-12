@@ -7,6 +7,7 @@ using Avalonia.VisualTree;
 using DynamicData;
 using Microsoft.EntityFrameworkCore;
 using NLog;
+using ReactiveUI;
 using YDs_Link_Saver.Database;
 using YDs_Link_Saver.Models;
 
@@ -14,7 +15,33 @@ namespace YDs_Link_Saver.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public ObservableCollection<StoredLink> Links { get; } = new();
+    public ObservableCollection<VisualLink> Links { get; } = new();
+
+    private string _searchQuery;
+    public string SearchQuery
+    {
+        get => _searchQuery;
+        set
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                foreach (var storedLink in Links)
+                {
+                    storedLink.IsVisible = true;
+                }
+            }
+            else
+            {
+                foreach (var storedLink in Links)
+                {
+                    storedLink.IsVisible = storedLink.Title.Contains(value) ||
+                                           storedLink.Url.Contains(value) ||
+                                           (storedLink.Description?.Contains(value) ?? false);
+                }
+            }
+            this.RaiseAndSetIfChanged(ref _searchQuery, value);
+        }
+    }
 
     private ApplicationContext _db = new ApplicationContext();
 
@@ -26,7 +53,7 @@ public class MainWindowViewModel : ViewModelBase
         _db.Links.Load();
         if (_db.Links.Any())
         {
-            Links.AddRange(_db.Links);
+            Links.AddRange(_db.Links.Select(x => x.ToVisualLink()));
         }
     }
 
@@ -37,7 +64,7 @@ public class MainWindowViewModel : ViewModelBase
         string? url = root.FindControl<TextBox>("TbUrl").Text;
         string? desc = root.FindControl<TextBox>("TbDescription").Text;
 
-        StoredLink link = new StoredLink()
+        VisualLink link = new VisualLink()
         {
             Title = title,
             Url = url,
@@ -47,7 +74,7 @@ public class MainWindowViewModel : ViewModelBase
         _logger.Debug("save to db...");
 
         Links.Add(link);
-        _db.Links.Add(link);
+        _db.Links.Add(link.ToStoredLink());
         _db.SaveChanges();
         
         _logger.Debug("success!");
@@ -55,10 +82,11 @@ public class MainWindowViewModel : ViewModelBase
 
     public void RemoveLinkCommand(object eLink)
     {
-        StoredLink link = (StoredLink)eLink;
+        VisualLink link = (VisualLink)eLink;
 
         Links.Remove(link);
-        _db.Links.Remove(link);
+        StoredLink? del = _db.Links.FirstOrDefault(x => x.Id == link.Id);
+        _db.Remove(del);
         _db.SaveChanges();
     }
 
